@@ -10,15 +10,14 @@ define("HTTP_SUCCESS", 200);
 function call_api_to_get_tracking_info_to_order_in_my_account()
 {
     //Define constant to token
-    define("TOKEN", "4C41F836R490FR43CDRB6E5R29755754DCAC");
-    //define("TOKEN", "5603DE43R0BC1R4929R8BFFR04A4A830D567"); --> (Use only PRODUCTION)
+    define("TOKEN", "YOUR TOKEN");
 
     $order_shipping_method_id = get_order_shipping_method_id();
     $tracking_code = trim(get_post_meta($_POST['order_id'], 'tracking_code_frenet', true));
     $services = get_availables_shipping_methods_to_this_token(TOKEN);
 
     if ($services === ERROR) {
-        echo json_encode(["code" => ERROR, "message" => ""]);
+        echo json_encode(["code" => ERROR, "message" => "Error in get available tracking services to this TOKEN"]);
     } else {
         $current_service = get_current_service_array($order_shipping_method_id, $services);
         $available_tracking_info_services = ["TNT", "Jamef", "Jadlog", "Dlog", "Correios"];
@@ -29,12 +28,12 @@ function call_api_to_get_tracking_info_to_order_in_my_account()
             $response = mount_tracking_info(TOKEN, $order_shipping_method_id, $current_service, $has_tracking_number, $tracking_code);
 
             if ($response === ERROR) {
-                echo json_encode(["code" => ERROR, "message" => ""]);
+                echo json_encode(["code" => ERROR, "message" => "Error in get tracking infos"]);
             } else {
                 echo json_encode(["code" => SUCCESS, "message" => $response]);
             }
         } else {
-            echo json_encode(["code" => WITHOUT_TRACKING_INFO, "message" => ""]);
+            echo json_encode(["code" => WITHOUT_TRACKING_INFO, "message" => "Carrier has no tracking"]);
         }
     }
 
