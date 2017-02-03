@@ -141,26 +141,6 @@ function mount_tracking_info($token, $order_shipping_method_id, $current_service
     //Check if contains tracking events and if code for HTTP request is successful
     if ($httpcode === HTTP_SUCCESS && array_key_exists('TrackingEvents', $response)) {
         $response = $response['TrackingEvents'];
-
-        $return = "";
-        foreach ($response as $event) {
-            //Change format of location
-            $location = ucfirst(strtolower($event['EventLocation']));
-            $location = substr_replace($location, strtoupper(substr($location, -2)), -2);
-
-            //Making the traking info structure
-            $return .= "<div class='row-tracking-info'>";
-            $return .= "<article class='col-tracking col-date-tracking'>
-                            <p class='text-tracking-info'>" . $event['EventDateTime'] . "</p>
-                        </article>";
-            $return .= "<article class='col-tracking col-description-tracking'>
-                            <p class='text-tracking-info'>" . $event['EventDescription'] . "</p>
-                        </article>";
-            $return .= "<article class='col-tracking col-location-tracking'>
-                            <p class='text-tracking-info'>" . $location . "</p>
-                        </article>";
-            $return .= "</div>";
-        }
     } else {
         $return = ERROR;
     }
