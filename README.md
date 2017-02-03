@@ -4,7 +4,7 @@ This is a upgrade for get the tracking infos in API of Frenet, preventing the ca
 
 BONUS: Standardize the location name of result using the code:
 
-```javascript
+```php
 $location = ucfirst(strtolower($event['EventLocation']));
 $location = substr_replace($location, strtoupper(substr($location, -2)), -2);
 ```
